@@ -1,7 +1,8 @@
 name: slide_up_panel
 description: A customizable Flutter widget for creating a draggable and expandable panel that slides up from the bottom of the screen.
-version: 1.0.0
+version: 1.1.0
 homepage: https://github.com/Abdullahzulfiqarxyz/slide_up_panel
+repository: https://github.com/Abdullahzulfiqarxyz/slide_up_panel.git
 
 
 environment:

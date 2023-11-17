@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 /// A customizable Flutter widget for creating a draggable and expandable panel
 /// that slides up from the bottom of the screen.
 class SlideUpPanel extends StatelessWidget {
-  /// Key to uniquely identify this widget.
-
   /// Determines whether the draggable panel overlays the background widget.
   final bool overLay;
 
@@ -24,23 +22,24 @@ class SlideUpPanel extends StatelessWidget {
   /// The maximum height to which the panel can be expanded.
   final double maxHeight;
 
+  /// Determines whether the panel collapses when tapping on the background.
+  final bool collapseOnBackgroundTap;
+
   /// Constructor to initialize the [SlideUpPanel] widget.
   const SlideUpPanel({
-    Key? key,
+    this.overLay = false,
+    this.rounded = false,
     required this.backGroundWidget,
     required this.sliderWidget,
     required this.minHeight,
     required this.maxHeight,
-    this.rounded = false,
-    this.overLay = false,
-  }) : super(key: key);
+    this.collapseOnBackgroundTap = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     // Reactive variable to track the height of the draggable panel.
     RxDouble containerHeight = minHeight.obs;
-
-    // Logging the screen height for reference.
 
     // Calculating the size of the background widget.
     double backGroundWidgetSize =
@@ -58,7 +57,17 @@ class SlideUpPanel extends StatelessWidget {
                     : (rounded)
                         ? backGroundWidgetSize + 15
                         : backGroundWidgetSize,
-                child: backGroundWidget,
+                child: GestureDetector(
+                  onTap: () {
+                    if (collapseOnBackgroundTap) {
+                      // Collapse the panel when tapping on the background if enabled.
+                      if (containerHeight.value > minHeight) {
+                        containerHeight.value = minHeight;
+                      }
+                    }
+                  },
+                  child: backGroundWidget,
+                ),
               ),
               (overLay)
                   ? Container()
